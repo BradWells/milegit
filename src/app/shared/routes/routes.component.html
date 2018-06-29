@@ -1,0 +1,20 @@
+<table>
+  <tr>
+      <td>Start</td>
+      <td>End</td>
+      <td>Note</td>
+      <td>Mileage</td>
+      <td>Project code</td>
+  </tr>
+  <tr *ngFor="let route of routes">
+    <td>{{route.start.name}}<br/>
+      {{route.start.address}}
+    </td>
+    <td>{{route.end.name}}<br/>
+      {{route.end.address}}
+    </td>
+    <td>{{route.note}}</td>
+    <td>{{route.mileage}}</td>
+    <td>{{route.projectCode}}</td>
+  </tr>
+</table>
