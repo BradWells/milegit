@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '../location';
+import { Location } from '../../interfaces/location';
+import { SelectedLocationSubscriptionService } from '../../services/selected-location-subscription.service';
 
 @Component({
   selector: 'milegit-locations',
@@ -9,7 +10,7 @@ import { Location } from '../location';
 export class LocationsComponent implements OnInit {
   locations: Location[];
   
-  constructor() { }
+  constructor(private selectedLocationSubscriptionService : SelectedLocationSubscriptionService) { }
 
   ngOnInit() {
     this.locations = [{
@@ -19,6 +20,10 @@ export class LocationsComponent implements OnInit {
       name: "Union Pacific",
       address: "Sad Dr."
     }];
+  }
+
+  onLocationClick(location: Location){
+    this.selectedLocationSubscriptionService.select(location);
   }
 
 }
