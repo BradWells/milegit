@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Route } from '../../interfaces/route';
 import { SelectedLocationSubscriptionService } from '../../services/selected-location-subscription.service';
 import { Location } from '../../interfaces/location';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'milegit-routes',
@@ -9,6 +10,8 @@ import { Location } from '../../interfaces/location';
   styleUrls: ['./routes.component.css']
 })
 export class RoutesComponent implements OnInit {
+  displayedColumns: string[];
+  tableDataSource: MatTableDataSource<Route>;
   routes: Route[];
   editingRoute: Route;
   currentlyAdding: string; // 'start', 'end'
@@ -26,6 +29,7 @@ export class RoutesComponent implements OnInit {
       this.editingRoute.end = selectedLocation;
       //TODO some stuff
       this.routes.push(this.editingRoute);
+      this.tableDataSource = new MatTableDataSource(this.routes);
       this.editingRoute = {};
       this.currentlyAdding = 'start';
     }
@@ -42,6 +46,7 @@ export class RoutesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.displayedColumns = ["startLocation", "endLocation", "note", "mileage", "projectCode", "action"];
     this.editingRoute = {};
     this.currentlyAdding = 'start';
     this.routes = [
@@ -59,6 +64,7 @@ export class RoutesComponent implements OnInit {
         projectCode: "60000"
       }
     ];
+    this.tableDataSource = new MatTableDataSource(this.routes);
   }
 
 }

@@ -1,31 +1,35 @@
-<table>
-  <tr>
-      <td>Start</td>
-      <td>End</td>
-      <td>Note</td>
-      <td>Mileage</td>
-      <td>Project code</td>
-  </tr>
-  <tr *ngFor="let route of routes">
-    <td>{{route.start.name}}<br/>
-      {{route.start.address}}
-    </td>
-    <td>{{route.end.name}}<br/>
-      {{route.end.address}}
-    </td>
-    <td>{{route.note}}</td>
-    <td>{{route.mileage}}</td>
-    <td>{{route.projectCode}}</td>
-  </tr>
-  <tr>
-    <td>{{editingRoute.start?.name}}<br/>
-      {{editingRoute.start?.address}}
-    </td>
-    <td>{{editingRoute.end?.name}}<br/>
-      {{editingRoute.end?.address}}
-    </td>
-    <td>{{editingRoute.note}}</td>
-    <td>{{editingRoute.mileage}}</td>
-    <td>{{editingRoute.projectCode}}</td>
-  </tr>
+<table mat-table [dataSource]="tableDataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="startLocation">
+    <th mat-header-cell *matHeaderCellDef> Start </th>
+    <td mat-cell *matCellDef="let route"> {{route.start.address}}</td>
+    <td mat-footer-cell *matFooterCellDef> {{editingRoute.start?.address}}</td>
+  </ng-container>
+  <ng-container matColumnDef="endLocation">
+    <th mat-header-cell *matHeaderCellDef> End </th>
+    <td mat-cell *matCellDef="let route"> {{route.end.address}}</td>
+    <td mat-footer-cell *matFooterCellDef> {{editingRoute.end?.address}}</td>
+  </ng-container>
+  <ng-container matColumnDef="note">
+    <th mat-header-cell *matHeaderCellDef> Note </th>
+    <td mat-cell *matCellDef="let route"> {{route.note}}</td>
+    <td mat-footer-cell *matFooterCellDef> {{editingRoute.note}}</td>
+  </ng-container>
+  <ng-container matColumnDef="mileage">
+    <th mat-header-cell *matHeaderCellDef> Mileage </th>
+    <td mat-cell *matCellDef="let route"> {{route.mileage}}</td>
+    <td mat-footer-cell *matFooterCellDef> {{editingRoute.mileage}}</td>
+  </ng-container>
+  <ng-container matColumnDef="projectCode">
+    <th mat-header-cell *matHeaderCellDef> Project Code </th>
+    <td mat-cell *matCellDef="let route"> {{route.projectCode}}</td>
+    <td mat-footer-cell *matFooterCellDef> {{editingRoute.projectCode}}</td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let route"><a (click)="deleteRoute(route)" href="">Delete</a></td>
+      <td mat-footer-cell *matFooterCellDef><button (click)="addRoute()" mat-raised-button color="primary">+</button></td>
+    </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 </table>
