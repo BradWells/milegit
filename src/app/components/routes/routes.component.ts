@@ -3,6 +3,8 @@ import { Route } from '../../interfaces/route';
 import { SelectedLocationSubscriptionService } from '../../services/selected-location-subscription.service';
 import { Location } from '../../interfaces/location';
 import { MatTableDataSource } from '@angular/material';
+import { CsvExportService } from '../../services/csv-export.service';
+import { MileageService } from '../../services/mileage.service';
 
 @Component({
   selector: 'milegit-routes',
@@ -16,7 +18,11 @@ export class RoutesComponent implements OnInit {
   editingRoute: Route;
   currentlyAdding: string; // 'start', 'end'
 
-  constructor(private selectedLocationSubscriptionService: SelectedLocationSubscriptionService) {
+  private readonly DEFAULT_PROJ_CODE = "60000";
+
+  constructor(private selectedLocationSubscriptionService: SelectedLocationSubscriptionService,
+    private csvExportService : CsvExportService,
+    private mileageService : MileageService) {
     selectedLocationSubscriptionService.subscribe(this.addSelectedLocationToLastRoute);
   }
   
@@ -28,26 +34,42 @@ export class RoutesComponent implements OnInit {
     } else {
       this.editingRoute.end = selectedLocation;
       //TODO some stuff
+      this.calculateMileage(this.editingRoute);
       this.routes.push(this.editingRoute);
-      this.tableDataSource = new MatTableDataSource(this.routes);
-      this.editingRoute = {};
+      this.createEditingRoute();
+      this.refresh();
       this.currentlyAdding = 'start';
     }
   }
 
   deleteRoute(route: Route){
+    console.log('deleting route');
     const routeIndex = this.routes.indexOf(route);
     this.routes.splice(routeIndex, 1);
+    this.refresh();
   }
 
   deleteEditingRoute(){
-    this.editingRoute = {};
+    console.log('deleting editing route');
+    delete this.editingRoute;
+    this.createEditingRoute();
     this.currentlyAdding = 'start';
+    this.refresh();
+  }
+
+  createEditingRoute(){
+    this.editingRoute = {
+      projectCode: this.DEFAULT_PROJ_CODE
+    };
+  }
+
+  refresh(){
+    this.tableDataSource = new MatTableDataSource(this.routes);
   }
 
   ngOnInit() {
     this.displayedColumns = ["startLocation", "endLocation", "note", "mileage", "projectCode", "action"];
-    this.editingRoute = {};
+    this.createEditingRoute();
     this.currentlyAdding = 'start';
     this.routes = [
       {
@@ -61,10 +83,21 @@ export class RoutesComponent implements OnInit {
         },
         note: "derp",
         mileage: 12,
-        projectCode: "60000"
+        projectCode: this.DEFAULT_PROJ_CODE
       }
     ];
     this.tableDataSource = new MatTableDataSource(this.routes);
+  }
+
+  calculateMileage(route : Route){
+    const mileageObservable = this.mileageService.getMileage(route)
+    mileageObservable.subscribe(mileage => {
+      route.mileage = mileage;
+    });
+  }
+
+  exportRoutesToCsv(){
+    this.csvExportService.exportRoutes(this.routes);
   }
 
 }

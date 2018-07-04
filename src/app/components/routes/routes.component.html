@@ -1,3 +1,4 @@
+<button (click)="exportRoutesToCsv()">Export</button>
 <table mat-table [dataSource]="tableDataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="startLocation">
     <th mat-header-cell *matHeaderCellDef> Start </th>
@@ -11,8 +12,18 @@
   </ng-container>
   <ng-container matColumnDef="note">
     <th mat-header-cell *matHeaderCellDef> Note </th>
-    <td mat-cell *matCellDef="let route"> {{route.note}}</td>
-    <td mat-footer-cell *matFooterCellDef> {{editingRoute.note}}</td>
+    <td mat-cell *matCellDef="let route">
+      <!-- TODO break into new component-->
+      <mat-form-field>
+        <input matInput [value]="route.note" [(ngModel)]="route.note">
+      </mat-form-field>
+    </td>
+    <td mat-footer-cell *matFooterCellDef>
+      <!-- TODO break into new component-->
+      <mat-form-field>
+        <input matInput [value]="editingRoute.note" [(ngModel)]="editingRoute.note">
+      </mat-form-field>
+    </td>
   </ng-container>
   <ng-container matColumnDef="mileage">
     <th mat-header-cell *matHeaderCellDef> Mileage </th>
@@ -21,14 +32,30 @@
   </ng-container>
   <ng-container matColumnDef="projectCode">
     <th mat-header-cell *matHeaderCellDef> Project Code </th>
-    <td mat-cell *matCellDef="let route"> {{route.projectCode}}</td>
-    <td mat-footer-cell *matFooterCellDef> {{editingRoute.projectCode}}</td>
+    <td mat-cell *matCellDef="let route">
+      <!-- TODO break into new component-->
+      <mat-form-field>
+        <mat-select [(value)]="route.projectCode">
+          <mat-option value="60000">60000</mat-option>
+          <mat-option value="30000">30000</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </td>
+    <td mat-footer-cell *matFooterCellDef>
+      <!-- TODO break into new component-->
+      <mat-form-field>
+        <mat-select [(value)]="editingRoute.projectCode">
+          <mat-option value="60000">60000</mat-option>
+          <mat-option value="30000">30000</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </td>
   </ng-container>
   <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let route"><a (click)="deleteRoute(route)" href="">Delete</a></td>
-      <td mat-footer-cell *matFooterCellDef><button (click)="addRoute()" mat-raised-button color="primary">+</button></td>
-    </ng-container>
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let route"><button (click)="deleteRoute(route)">Delete</button></td>
+    <td mat-footer-cell *matFooterCellDef><button (click)="deleteEditingRoute(route)">Delete</button></td>
+  </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>

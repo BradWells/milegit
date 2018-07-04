@@ -5,13 +5,18 @@ import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LocationsComponent } from './components/locations/locations.component';
 import { RoutesComponent } from './components/routes/routes.component';
-import {MatButtonModule, MatTableModule, MatIconModule} from '@angular/material';
+import {MatButtonModule, MatTableModule, MatIconModule, MatSelectModule, MatInputModule, } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 const materialModules = [
   MatButtonModule,
   MatTableModule,
   MatIconModule,
+  MatSelectModule,
+  MatInputModule,
+  FormsModule,
   BrowserAnimationsModule
 ];
 
@@ -24,6 +29,7 @@ const materialModules = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ...materialModules
   ],
   providers: [],
