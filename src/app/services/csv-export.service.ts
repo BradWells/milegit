@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Route } from '../interfaces/route';
-import { json2csv } from 'json2csv';
+const json2csv = require('json2csv').parse;
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,8 @@ export class CsvExportService {
   }
 
   exportRoutes(routes: Route[]){
-    const fields = ['start', 'end', 'note', 'mileage', 'projectCode'];
-    const csvText = json2csv({
-      data: routes,
-      fields: fields
-    });
+    const fields = ['start.address', 'end.address', 'note', 'mileage', 'projectCode'];
+    const csvText = json2csv(routes, {fields: fields});
     this.download('Routes.csv', csvText);
   }
 

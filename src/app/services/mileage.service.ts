@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Route } from '../interfaces/route';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { MapquestRouteResponse } from './mapquest-route-response';
 
@@ -10,13 +10,12 @@ import { MapquestRouteResponse } from './mapquest-route-response';
 })
 export class MileageService {
 
-  private readonly MAPQUEST_API_KEY = 'TODO';
+  private readonly MAPQUEST_API_KEY = 'bKBgV2GVAB36746deWG0Gs3niD3emFQe';
 
   constructor(private http: HttpClient) { }
 
   getMileage(route : Route): Observable<number> {
     const url = 'https://www.mapquestapi.com/directions/v2/route';
-
     const params = new HttpParams()
         .set('key', this.MAPQUEST_API_KEY)
         .set('from', route.start.address)

@@ -13,13 +13,16 @@ export class LocationsComponent implements OnInit {
   constructor(private selectedLocationSubscriptionService : SelectedLocationSubscriptionService) { }
 
   ngOnInit() {
-    this.locations = [{
-      name: "Brad's house",
-      address: "1524 S 50th St."
-    }, {
-      name: "Union Pacific",
-      address: "Sad Dr."
-    }];
+    this.locations = [
+      {
+        name: "Courthouse",
+        address: "1701 Farnam St., Omaha, NE"
+      },
+      {
+        name: "LFS Office",
+        address: "1941 S. 42nd St., Omaha, NE"
+      }
+    ];
   }
 
   onLocationClick(location: Location){

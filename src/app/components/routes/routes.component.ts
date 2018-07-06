@@ -18,7 +18,7 @@ export class RoutesComponent implements OnInit {
   editingRoute: Route;
   currentlyAdding: string; // 'start', 'end'
 
-  private readonly DEFAULT_PROJ_CODE = "60000";
+  private readonly DEFAULT_PROJ_CODE = "39000";
 
   constructor(private selectedLocationSubscriptionService: SelectedLocationSubscriptionService,
     private csvExportService : CsvExportService,
@@ -72,19 +72,6 @@ export class RoutesComponent implements OnInit {
     this.createEditingRoute();
     this.currentlyAdding = 'start';
     this.routes = [
-      {
-        start: {
-          name: "Brad's house",
-          address: "1524 S 50th St."
-        },
-        end: {
-          name: "Union Pacific",
-          address: "Sad Dr."
-        },
-        note: "derp",
-        mileage: 12,
-        projectCode: this.DEFAULT_PROJ_CODE
-      }
     ];
     this.tableDataSource = new MatTableDataSource(this.routes);
   }
@@ -92,7 +79,7 @@ export class RoutesComponent implements OnInit {
   calculateMileage(route : Route){
     const mileageObservable = this.mileageService.getMileage(route)
     mileageObservable.subscribe(mileage => {
-      route.mileage = mileage;
+      route.mileage = Math.round(mileage);
     });
   }
 
