@@ -9,6 +9,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "types": [
+      // Added this on 7/5/18 to make 'require' compile for github page deploy
+      "node"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ],
